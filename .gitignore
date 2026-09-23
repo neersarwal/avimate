@@ -1,0 +1,27 @@
+# Vendored SDKs (license-gated, not meant to be committed)
+Ultralight SDK/
+XPSDK4.3.0/
+
+# Design exports (Claude Design mockups — not for public repo)
+xefb/design-doc/
+
+# Build output
+xefb/build/
+build/
+out/
+cmake-build-*/
+*.obj
+*.pdb
+*.xpl
+
+# Editor / OS cruft
+.vs/
+.vscode/
+*.user
+.DS_Store
+Thumbs.db
+CMakeUserPresets.json
+
+# Ultralight runtime cache
+cache/
+resources/cache/

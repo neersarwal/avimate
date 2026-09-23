@@ -1,0 +1,8 @@
+build/
+*.xpl
+.vs/
+CMakeUserPresets.json
+
+# Ultralight persistent session (cookies / cache) — created next to the plugin at runtime
+cache/
+resources/cache/
