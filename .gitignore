@@ -5,14 +5,21 @@ XPSDK4.3.0/
 # Design exports (Claude Design mockups — not for public repo)
 xefb/design-doc/
 
-# Build output
-xefb/build/
+# Build output — ignore everything in build/ EXCEPT the packaged
+# drop-in plugin folder (xefb/build/xEFB/), which is committed on
+# purpose so it can be copied straight into X-Plane without rebuilding.
+xefb/build/*
+!xefb/build/xEFB/
 build/
 out/
 cmake-build-*/
 *.obj
 *.pdb
+
+# .xpl files anywhere are ignored EXCEPT inside the committed
+# packaged output folder above.
 *.xpl
+!xefb/build/xEFB/**/*.xpl
 
 # Editor / OS cruft
 .vs/
@@ -25,3 +32,7 @@ CMakeUserPresets.json
 # Ultralight runtime cache
 cache/
 resources/cache/
+
+# Claude Code handoff notes (internal AI-assist scratch docs, not for the public repo)
+CLAUDE_CODE_HANDOFF.md
+xefb/CLAUDE_CODE_HANDOFF.md

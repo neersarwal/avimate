@@ -1,4 +1,8 @@
-# xEFB — a modern, Fluent-styled EFB for X-Plane 12
+# Pane — a modern, Fluent-styled EFB for X-Plane 12
+
+*(codename `xEFB` internally — folder and file names, and the JS bridge
+global `window.__xefb`, are being migrated gradually; see the note at the
+bottom.)*
 
 A scaffold for an AviTab-style plugin whose UI is rendered by an embedded
 web view (Ultralight) instead of an immediate-mode C++ widget toolkit, so
@@ -32,7 +36,7 @@ it → `TabletSurface::uploadFromHost()` copies pixels into the GL texture →
 - `TabletSurface` — real GL texture (`XPLMGenerateTextureNumbers` +
   `glTexSubImage2D`, `GL_BGRA`), draws the quad, maps window clicks back to
   view coordinates.
-- `PluginMain` — runs the EFB as a resizable 2D floating window
+- `PluginMain` — runs Pane as a resizable 2D floating window
   (`XPLMCreateWindowEx`, works on GL/Vulkan/Metal), mouse + drag + hover wired
   to Ultralight, a Plugins-menu show/hide item, render capped to 30 Hz and the
   sim-state push to 10 Hz.
@@ -41,7 +45,7 @@ it → `TabletSurface::uploadFromHost()` copies pixels into the GL texture →
 - `WeatherBridge` — real `XPLMGetMETARForAirport` / `XPLMGetWeatherAtLocation`,
   resolved via `XPLMFindSymbol` (loads fine on XP11), used for wind/OAT.
 - `BrowserWindow` — a second movable/resizable X-Plane window hosting a full
-  Ultralight web view for arbitrary URLs. The EFB "Browser" screen opens
+  Ultralight web view for arbitrary URLs. Pane's "Browser" screen opens
   Navigraph Charts / SimBrief Dispatch / the VATSIM map in it
   (`invoke('openBrowser', {url})`), with back/forward/reload + keyboard.
 - `HttpClient` — async HTTPS (WinHTTP) on a worker thread, results delivered on
@@ -61,11 +65,11 @@ it → `TabletSurface::uploadFromHost()` copies pixels into the GL texture →
   `client_id`.
 - `window.__xefb.invoke` actions `uplinkRouteToFms`, `callTug`, weather inject
   (`XPLMSetWeatherAtLocation`), etc. — currently logged only.
-- In-EFB chart PDF viewer, weather radar, CG envelope, Perf numbers from the OFP.
+- In-app chart PDF viewer, weather radar, CG envelope, Perf numbers from the OFP.
 
 ## X-Plane version support
 
-xEFB is built to load on **X-Plane 11.50+ and X-Plane 12 from one binary**:
+Pane is built to load on **X-Plane 11.50+ and X-Plane 12 from one binary**:
 
 - The whole codebase compiles against the **XPLM303** feature level (the
   highest XP11 ever reached). The compiler will stop you using an XP12-only
@@ -101,7 +105,7 @@ figures it out. The build stages a drop-in plugin folder at `build/xEFB/`:
 ```
 xEFB/
 ├── win_x64/   xEFB.xpl + Ultralight*.dll / AppCore.dll
-└── resources/ the EFB web app + Ultralight's cacert.pem / icudt*.dat
+└── resources/ the Pane web app + Ultralight's cacert.pem / icudt*.dat
 ```
 
 Copy that `xEFB/` folder into `X-Plane 12/Resources/plugins/` (or the XP11
@@ -120,7 +124,16 @@ equivalent). Open it from the **Plugins → xEFB → Show / hide EFB** menu.
 ## Licensing note
 
 AviTab is GPLv3. If you fork/reuse its dataref or chart-parsing code
-directly, xEFB inherits GPLv3 obligations. Writing the EFB logic fresh (as
+directly, Pane inherits GPLv3 obligations. Writing the EFB logic fresh (as
 this scaffold does) keeps you free to choose your own license, at the cost
 of reimplementing things like PDF chart rendering and navdata parsing that
 AviTab already solved.
+
+## About the name
+
+The product is now called **Pane**. The rename from `xEFB` is in progress —
+the plugin folder, `.xpl` filename, menu item, and JS bridge global
+(`window.__xefb`) are still using the old name on purpose, until the rename
+is finished across the codebase and the X-Plane installation. Don't rename
+those on your own; see `docs/` or ask before changing anything outside this
+README.
