@@ -1,4 +1,6 @@
-# Vendored SDKs (license-gated, not meant to be committed)
+# Vendored SDKs (license-gated downloads) — not tracked yet.
+# Will likely be added once the full offline build package is set up
+# for Releases; leave this note until that's decided.
 Ultralight SDK/
 XPSDK4.3.0/
 

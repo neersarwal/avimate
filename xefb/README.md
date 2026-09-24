@@ -41,38 +41,18 @@ Navigraph OAuth/charts integration, a few `invoke` actions that are logged
 but not yet wired to real sim behaviour, and the chart/weather-radar/CG
 screens. See `docs/` for the detailed breakdown.
 
-## To make this build
+## Installation
 
-You need the two SDKs (both license-gated downloads):
-- **X-Plane SDK 4.x**: https://developer.x-plane.com/sdk/plugin-sdk-downloads/
-  — one download; the `XPLMxxx` levels are compile defines, not separate SDKs.
-- **Ultralight SDK 1.4.x**: https://ultralig.ht/
+1. Download the latest release from the [Releases page](../../releases).
+2. Unzip it — you'll get an `xEFB/` folder containing `win_x64/` and
+   `resources/`.
+3. Copy that `xEFB/` folder into `X-Plane 12/Resources/plugins/` (or the
+   XP11 equivalent).
+4. Launch X-Plane. Open it from **Plugins → xEFB → Show / hide EFB**.
 
-```sh
-cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Release \
-    -DXPSDK_DIR="/path/to/XPSDK4.3.0" \
-    -DULTRALIGHT_DIR="/path/to/Ultralight SDK"
-cmake --build build
-```
+Runs on X-Plane 11.50+ and X-Plane 12 from one binary.
 
-`XPSDK_DIR` can point at the download root or its inner `SDK/` folder — CMake
-figures it out. The build stages a drop-in plugin folder at `build/xEFB/`:
-
-```
-xEFB/
-├── win_x64/   xEFB.xpl + Ultralight*.dll / AppCore.dll
-└── resources/ the web app + Ultralight's cacert.pem / icudt*.dat
-```
-
-Copy that `xEFB/` folder into `X-Plane 12/Resources/plugins/` (or the XP11
-equivalent). Open it from the **Plugins → xEFB → Show / hide EFB** menu.
-
-A pre-built copy of this folder is committed at `build/xEFB/` in this repo
-for convenience — you can copy that directly into X-Plane without building
-from source, as long as it's reasonably up to date with the code.
-
-Runs on X-Plane 11.50+ and X-Plane 12 from one binary; XP12-only weather
-APIs are resolved at runtime and fall back cleanly on XP11.
+Want to build it from source instead? See `docs/DEVELOPMENT.md`.
 
 ## Suggested next steps
 
