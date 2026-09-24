@@ -1,8 +1,10 @@
-# [Plugin name TBD] — a modern, Fluent-styled EFB for X-Plane 12
+# Avimate — a modern, Fluent-styled EFB for X-Plane 12
 
-*(codename `xEFB` internally, previously also called "Pane" — folder and
-file names, the JS bridge global `window.__xefb`, and the final product
-name are still being decided; see the note at the bottom.)*
+*from Flightline Interactive*
+
+*(codename `xEFB` internally — folder and file names, the JS bridge global
+`window.__xefb`, and the plugin signature still use the old codename while
+the rename is finished; see the note at the bottom.)*
 
 ## What this is
 
@@ -25,9 +27,8 @@ cockpit tablet) inside X-Plane that shows:
 
 It's meant to be a drop-in AviTab-style plugin, but modern, maintainable,
 and easy to extend with new screens since it's just a web app under the
-hood. This is the first plugin in a planned small lineup of X-Plane 12
-tools — the eventual studio/dev-team name it'll ship under hasn't been
-decided yet either.
+hood. Avimate is the first plugin from Flightline Interactive, with more
+X-Plane 12 tools planned.
 
 ## Status
 
@@ -79,8 +80,8 @@ APIs are resolved at runtime and fall back cleanly on XP11.
    weather inject) to real plugin behaviour.
 2. Solve the 3D tablet-mesh texture path.
 3. Build out the placeholder screens (charts, radar) against real data.
-4. Settle on the final plugin/studio name and do the rename pass across
-   folders, filenames, the plugin signature, and the JS bridge global.
+4. Finish the rename to Avimate across folders, filenames, the plugin
+   signature, and the JS bridge global.
 
 ## Licensing note
 
@@ -89,14 +90,15 @@ directly, this project inherits GPLv3 obligations. Writing the EFB logic
 fresh (as this scaffold does) keeps it free to choose its own license later.
 
 This repo is currently private and closed-source while the project
-stabilizes toward a v1. A formal license (and the studio/publisher name)
-will be added once that's decided.
+stabilizes toward a v1. A formal license under Flightline Interactive will
+be added closer to that release.
 
 ## About the name
 
-The product name isn't finalized yet (candidates include Avimate, Wingman,
-FirstOfficer, TacCom, and the earlier working name "Pane"). Until it's
-settled, the plugin folder, `.xpl` filename, menu item, and JS bridge
-global (`window.__xefb`) are all still using the original `xEFB` codename
-on purpose. Don't rename those on your own; see `docs/` or ask before
-changing anything outside this README.
+The product is called **Avimate**, published under **Flightline
+Interactive**. The rename from the `xEFB` codename is still in progress —
+the plugin folder, `.xpl` filename, menu item, and JS bridge global
+(`window.__xefb`) are all still using the old codename on purpose, until
+the rename is finished across the codebase and the X-Plane installation.
+Don't rename those on your own; see `docs/` or ask before changing
+anything outside this README.
