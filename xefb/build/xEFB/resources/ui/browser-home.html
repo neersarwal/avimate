@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>xEFB Browser</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: radial-gradient(120% 80% at 50% -10%, #1b2740 0%, #0b0e14 60%, #07090b 100%), #0b0e14;
+    color: #e9edf4;
+    font: 15px/1.5 "Segoe UI Variable","Segoe UI",system-ui,-apple-system,sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 6vh 4vw;
+  }
+  h1 { font-size: 22px; font-weight: 650; letter-spacing: .2px; }
+  p.sub { color: #8b95a5; margin-top: 6px; margin-bottom: 34px; font-size: 13px; }
+  .search {
+    width: min(680px, 92vw); display: flex; gap: 10px; margin-bottom: 34px;
+  }
+  .search input {
+    flex: 1; height: 46px; border-radius: 23px; border: 1px solid #2a3446;
+    background: #0d1219; color: #e9edf4; padding: 0 20px; font-size: 14px; outline: none;
+  }
+  .search input:focus { border-color: #4f9cf5; }
+  .search button {
+    height: 46px; padding: 0 22px; border-radius: 23px; border: 0; cursor: pointer;
+    background: #4f9cf5; color: #06101d; font-weight: 650; font-size: 14px;
+  }
+  .grid {
+    width: min(880px, 94vw);
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  }
+  a.tile {
+    display: block; padding: 18px 16px; border-radius: 14px; text-decoration: none;
+    background: #121722; border: 1px solid #232c3b; color: #e9edf4;
+    transition: border-color .12s, transform .12s, background .12s;
+  }
+  a.tile:hover { border-color: #4f9cf5; background: #161d2b; transform: translateY(-2px); }
+  a.tile .t { font-weight: 620; font-size: 15px; }
+  a.tile .d { color: #8b95a5; font-size: 12px; margin-top: 3px; }
+  footer { margin-top: 40px; color: #5c6675; font-size: 11px; text-align: center; }
+  @media (max-width: 620px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+  <h1>xEFB Browser</h1>
+  <p class="sub">Flight-planning &amp; charts, rendered inside the tablet</p>
+
+  <form class="search" onsubmit="go(event)">
+    <input id="q" type="text" placeholder="Search the web or enter a URL" autocomplete="off" spellcheck="false" autofocus />
+    <button type="submit">Go</button>
+  </form>
+
+  <div class="grid">
+    <a class="tile" href="https://charts.navigraph.com"><div class="t">Navigraph Charts</div><div class="d">Terminal charts &amp; enroute</div></a>
+    <a class="tile" href="https://dispatch.simbrief.com"><div class="t">SimBrief Dispatch</div><div class="d">Generate / view your OFP</div></a>
+    <a class="tile" href="https://chartfox.org"><div class="t">ChartFox</div><div class="d">Free worldwide charts</div></a>
+    <a class="tile" href="https://aviationweather.gov"><div class="t">Aviation Weather</div><div class="d">METAR · TAF · SIGMET · PIREP</div></a>
+    <a class="tile" href="https://www.skyvector.com"><div class="t">SkyVector</div><div class="d">Enroute &amp; sectional maps</div></a>
+    <a class="tile" href="https://metar-taf.com"><div class="t">METAR-TAF</div><div class="d">Decoded weather &amp; forecasts</div></a>
+    <a class="tile" href="https://map.vatsim.net"><div class="t">VATSIM Map</div><div class="d">Live online traffic &amp; ATC</div></a>
+    <a class="tile" href="https://webeye.ivao.aero/"><div class="t">IVAO Webeye</div><div class="d">Live online traffic &amp; ATC</div></a>
+    <a class="tile" href="https://ourairports.com"><div class="t">OurAirports</div><div class="d">Airport info, frequencies, runways</div></a>
+  </div>
+
+  <footer>Pages load from the internet — X-Plane must have a connection.</footer>
+
+<script>
+  function go(e) {
+    e.preventDefault();
+    var v = document.getElementById('q').value.trim();
+    if (!v) return;
+    if (/^https?:\/\//i.test(v)) { location.href = v; return; }
+    if (/^[\w-]+(\.[\w-]+)+(\/.*)?$/.test(v)) { location.href = 'https://' + v; return; }
+    location.href = 'https://duckduckgo.com/?q=' + encodeURIComponent(v);
+  }
+</script>
+</body>
+</html>
