@@ -1,6 +1,6 @@
 build/*
-!build/xEFB
-!build/xEFB/**
+build/xEFB
+build/xEFB/**
 
 .vs/
 CMakeUserPresets.json
