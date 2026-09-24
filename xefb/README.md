@@ -1,13 +1,33 @@
-# Pane — a modern, Fluent-styled EFB for X-Plane 12
+# [Plugin name TBD] — a modern, Fluent-styled EFB for X-Plane 12
 
-*(codename `xEFB` internally — folder and file names, and the JS bridge
-global `window.__xefb`, are being migrated gradually; see the note at the
-bottom.)*
+*(codename `xEFB` internally, previously also called "Pane" — folder and
+file names, the JS bridge global `window.__xefb`, and the final product
+name are still being decided; see the note at the bottom.)*
 
-A scaffold for an AviTab-style plugin whose UI is rendered by an embedded
-web view (Ultralight) instead of an immediate-mode C++ widget toolkit, so
-the interface can actually be built with a real design system (Fluent UI
-React, or Flutter's `fluent_ui`, if you go that route instead).
+## What this is
+
+This is an **Electronic Flight Bag (EFB)** plugin for **X-Plane 12** (and
+X-Plane 11.50+) — an in-sim tablet, in the spirit of AviTab, but with its
+whole interface built as a real web app instead of an immediate-mode C++
+widget toolkit. That means the UI can use a proper design system (Fluent UI)
+and modern web tooling, rather than hand-rolled ImGui-style controls.
+
+Concretely, once installed it adds a resizable window (and eventually a 3D
+cockpit tablet) inside X-Plane that shows:
+
+- A **moving map** with your route, aircraft position and track
+- A **SimBrief OFP** view — route, overview, weather — fetched live from
+  your SimBrief flight plan
+- A **Navigraph Charts / SimBrief Dispatch / VATSIM map** browser, opened
+  in an in-sim web view
+- Live sim data (position, heading, groundspeed, fuel, weather/METAR) fed
+  into the UI in real time
+
+It's meant to be a drop-in AviTab-style plugin, but modern, maintainable,
+and easy to extend with new screens since it's just a web app under the
+hood. This is the first plugin in a planned small lineup of X-Plane 12
+tools — the eventual studio/dev-team name it'll ship under hasn't been
+decided yet either.
 
 ## How it fits together
 
@@ -36,7 +56,7 @@ it → `TabletSurface::uploadFromHost()` copies pixels into the GL texture →
 - `TabletSurface` — real GL texture (`XPLMGenerateTextureNumbers` +
   `glTexSubImage2D`, `GL_BGRA`), draws the quad, maps window clicks back to
   view coordinates.
-- `PluginMain` — runs Pane as a resizable 2D floating window
+- `PluginMain` — runs the EFB as a resizable 2D floating window
   (`XPLMCreateWindowEx`, works on GL/Vulkan/Metal), mouse + drag + hover wired
   to Ultralight, a Plugins-menu show/hide item, render capped to 30 Hz and the
   sim-state push to 10 Hz.
@@ -45,7 +65,7 @@ it → `TabletSurface::uploadFromHost()` copies pixels into the GL texture →
 - `WeatherBridge` — real `XPLMGetMETARForAirport` / `XPLMGetWeatherAtLocation`,
   resolved via `XPLMFindSymbol` (loads fine on XP11), used for wind/OAT.
 - `BrowserWindow` — a second movable/resizable X-Plane window hosting a full
-  Ultralight web view for arbitrary URLs. Pane's "Browser" screen opens
+  Ultralight web view for arbitrary URLs. The "Browser" screen opens
   Navigraph Charts / SimBrief Dispatch / the VATSIM map in it
   (`invoke('openBrowser', {url})`), with back/forward/reload + keyboard.
 - `HttpClient` — async HTTPS (WinHTTP) on a worker thread, results delivered on
@@ -69,7 +89,7 @@ it → `TabletSurface::uploadFromHost()` copies pixels into the GL texture →
 
 ## X-Plane version support
 
-Pane is built to load on **X-Plane 11.50+ and X-Plane 12 from one binary**:
+Built to load on **X-Plane 11.50+ and X-Plane 12 from one binary**:
 
 - The whole codebase compiles against the **XPLM303** feature level (the
   highest XP11 ever reached). The compiler will stop you using an XP12-only
@@ -105,11 +125,15 @@ figures it out. The build stages a drop-in plugin folder at `build/xEFB/`:
 ```
 xEFB/
 ├── win_x64/   xEFB.xpl + Ultralight*.dll / AppCore.dll
-└── resources/ the Pane web app + Ultralight's cacert.pem / icudt*.dat
+└── resources/ the web app + Ultralight's cacert.pem / icudt*.dat
 ```
 
 Copy that `xEFB/` folder into `X-Plane 12/Resources/plugins/` (or the XP11
 equivalent). Open it from the **Plugins → xEFB → Show / hide EFB** menu.
+
+A pre-built copy of this folder is committed at `build/xEFB/` in this repo
+for convenience — you can copy that directly into X-Plane without building
+from source, as long as it's reasonably up to date with the code.
 
 ## Suggested next steps
 
@@ -120,20 +144,26 @@ equivalent). Open it from the **Plugins → xEFB → Show / hide EFB** menu.
    data — one page/route in `resources/ui` at a time.
 4. Optionally vendor a component library locally under `resources/ui/vendor/`
    — no CDN access mid-flight.
+5. Settle on the final plugin/studio name and do the rename pass across
+   folders, filenames, the plugin signature, and the JS bridge global.
 
 ## Licensing note
 
 AviTab is GPLv3. If you fork/reuse its dataref or chart-parsing code
-directly, Pane inherits GPLv3 obligations. Writing the EFB logic fresh (as
-this scaffold does) keeps you free to choose your own license, at the cost
-of reimplementing things like PDF chart rendering and navdata parsing that
-AviTab already solved.
+directly, this project inherits GPLv3 obligations. Writing the EFB logic
+fresh (as this scaffold does) keeps it free to choose its own license later,
+at the cost of reimplementing things like PDF chart rendering and navdata
+parsing that AviTab already solved.
+
+This repo is currently private and closed-source while the project
+stabilizes toward a v1. A formal license (and the studio/publisher name)
+will be added once that's decided.
 
 ## About the name
 
-The product is now called **Pane**. The rename from `xEFB` is in progress —
-the plugin folder, `.xpl` filename, menu item, and JS bridge global
-(`window.__xefb`) are still using the old name on purpose, until the rename
-is finished across the codebase and the X-Plane installation. Don't rename
-those on your own; see `docs/` or ask before changing anything outside this
-README.
+The product name isn't finalized yet (candidates include Avimate, Wingman,
+FirstOfficer, TacCom, and the earlier working name "Pane"). Until it's
+settled, the plugin folder, `.xpl` filename, menu item, and JS bridge
+global (`window.__xefb`) are all still using the original `xEFB` codename
+on purpose. Don't rename those on your own; see `docs/` or ask before
+changing anything outside this README.
